@@ -2,29 +2,44 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class AdminSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        DB::table('users')->insert([
-            [
-                'name' => 'Superadmin',
-                'email' => 'superadmin@gmail.com',
-                'telephone' => '085876550051',
-                'email_verified_at' => now(),
-                'password' => Hash::make('superadmin'),
-                'created_at' => now(),
-                'updated_at' => now(),
-                'role' => 'Admin',
-            ],
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
+        Role::create(['name' => 'superadmin']);
+        Role::create(['name' => 'users']);
+
+        // Superadmin
+        $superadmin = User::create([
+            'name' => 'Superadmin',
+            'email' => 'superadmin@gmail.com',
+            'telephone' => '085876550051',
+            'email_verified_at' => now(),
+            'password' => bcrypt('superadmin'),
+            'role' => 'Superadmin',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+        $superadmin->assignRole('superadmin');
+
+        // Buat user admin desa
+        $adminDesa = User::create([
+            'name' => 'Users',
+            'email' => 'users@gmail.com',
+            'telephone' => '085876550051',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'role' => 'User',
+            'created_at' => now(),
+            'updated_at' => now(),
+
+        ]);
+        $adminDesa->assignRole('users');
     }
 }

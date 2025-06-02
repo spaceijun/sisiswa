@@ -6,7 +6,7 @@
             $role = Auth::user()->role; // Mengambil role user yang login
         @endphp
         <ul class="navbar-nav" id="navbar-nav">
-            @if ($role == 'Admin')
+            @if ($role == 'Superadmin')
                 {{-- Menu Khusus Super Admin --}}
                 <li class="nav-item">
                     <a href="{{ url('superadmin/dashboard') }}"

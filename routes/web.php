@@ -14,7 +14,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'role:superadmin')->group(function () {
     Route::prefix('superadmin')->name('superadmin.')->group(function () {
         // WA Gateway Fonnte
         Route::resource('devices', DeviceController::class);

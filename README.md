@@ -17,5 +17,5 @@
 
 ## Updated Version 1.1
 
--- Add Permission With Spatie
--- Add Manajemen User
+-   Add Permission With Spatie
+-   Add Manajemen User
