@@ -14,3 +14,8 @@
 ### User Account
 
 -   superadmin@gmail.com (superadmin)
+
+## Updated Version 1.1
+
+-- Add Permission With Spatie
+-- Add Manajemen User

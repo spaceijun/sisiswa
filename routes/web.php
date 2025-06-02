@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Superadmin\DeviceController;
 use App\Http\Controllers\Superadmin\SettingwebsiteController;
+use App\Http\Controllers\Superadmin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
         Route::post('devices/status', [DeviceController::class, 'checkDeviceStatus']);
         Route::post('devices/activate', [DeviceController::class, 'activateDevice'])->name('devices.activate');
         Route::post('devices/disconnect', [DeviceController::class, 'disconnect'])->name('devices.disconnect');
+
+        // Management Users 
+        Route::resource('users', UserController::class);
 
         // settings
         Route::get('/settings', [SettingwebsiteController::class, 'index'])->name('settings.index');

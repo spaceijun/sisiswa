@@ -16,9 +16,9 @@ class SettingwebSeeder extends Seeder
         DB::table('settingwebsites')->insert([
             [
                 'title' => 'Starterkit SangkalaTech',
-                'description' => 'This a starter kit from SangkalaTech V.1.0',
-                'favicon' => 'storage/dsV7Cdty8s9ConWgcTWSUabL4X96AmqrOBIhRvQd.png',
-                'logo' => 'dsV7Cdty8s9ConWgcTWSUabL4X96AmqrOBIhRvQd.png',
+                'description' => 'This a starter kit from SangkalaTech V.1.1',
+                'favicon' => 'storage/sangkala.png',
+                'logo' => 'storage/sangkala.png',
             ],
         ]);
     }
