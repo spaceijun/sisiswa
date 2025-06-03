@@ -28,7 +28,7 @@ return [
     |               view-field.stub
     */
 
-    'stub_path' => resource_path('views/stub'),
+    'stub_path' => resource_path('views/stubs'),
     /*
     |--------------------------------------------------------------------------
     | Application Layout
