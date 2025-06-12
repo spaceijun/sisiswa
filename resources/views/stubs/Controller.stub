@@ -2,6 +2,7 @@
 
 namespace {{controllerNamespace}};
 
+use App\Http\Controllers\Controller;
 use {{modelNamespace}}\{{modelName}};
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNamePluralLowerCase}} = {{modelName}}::paginate();
 
-        return view('{{modelView}}.index', compact('{{modelNamePluralLowerCase}}'))
+        return view('superadmin.{{modelView}}.index', compact('{{modelNamePluralLowerCase}}'))
             ->with('i', ($request->input('page', 1) - 1) * ${{modelNamePluralLowerCase}}->perPage());
     }
 
@@ -29,7 +30,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNameLowerCase}} = new {{modelName}}();
 
-        return view('{{modelView}}.create', compact('{{modelNameLowerCase}}'));
+        return view('superadmin.{{modelView}}.create', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -39,7 +40,7 @@ class {{modelName}}Controller extends Controller
     {
         {{modelName}}::create($request->validated());
 
-        return Redirect::route('{{modelRoute}}.index')
+        return Redirect::route('superadmin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} created successfully.');
     }
 
@@ -50,7 +51,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNameLowerCase}} = {{modelName}}::find($id);
 
-        return view('{{modelView}}.show', compact('{{modelNameLowerCase}}'));
+        return view('superadmin.{{modelView}}.show', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -60,7 +61,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNameLowerCase}} = {{modelName}}::find($id);
 
-        return view('{{modelView}}.edit', compact('{{modelNameLowerCase}}'));
+        return view('superadmin.{{modelView}}.edit', compact('{{modelNameLowerCase}}'));
     }
 
     /**
@@ -70,7 +71,7 @@ class {{modelName}}Controller extends Controller
     {
         ${{modelNameLowerCase}}->update($request->validated());
 
-        return Redirect::route('{{modelRoute}}.index')
+        return Redirect::route('superadmin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} updated successfully');
     }
 
@@ -78,7 +79,7 @@ class {{modelName}}Controller extends Controller
     {
         {{modelName}}::find($id)->delete();
 
-        return Redirect::route('{{modelRoute}}.index')
+        return Redirect::route('superadmin.{{modelRoute}}.index')
             ->with('success', '{{modelName}} deleted successfully');
     }
 }
