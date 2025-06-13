@@ -64,8 +64,11 @@ class KelaController extends Controller
     public function edit($id): View
     {
         $kela = Kela::find($id);
+        $kelasCategories = KelasCategory::all();
+        $guru = Guru::all();
 
-        return view('superadmin.kela.edit', compact('kela'));
+
+        return view('superadmin.kela.edit', compact('kela', 'kelasCategories', 'guru'));
     }
 
     /**

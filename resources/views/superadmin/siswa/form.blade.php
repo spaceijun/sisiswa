@@ -7,7 +7,7 @@
                 <option value="">-- Select Siswa --</option>
                 @foreach ($users as $user)
                     <option value="{{ $user->id }}"
-                        {{ old('user_id', $user?->user_id) == $user->id ? 'selected' : '' }}>
+                        {{ old('user_id', $siswa?->user_id) == $user->id ? 'selected' : '' }}>
                         {{ $user->name }}
                     </option>
                 @endforeach
@@ -19,10 +19,10 @@
             <label for="kelas_id" class="form-label">{{ __('Kelas') }}</label>
             <select name="kelas_id" class="form-control @error('kelas_id') is-invalid @enderror" id="kelas_id">
                 <option value="">-- Select Kelas --</option>
-                @foreach ($kelas as $siswa)
-                    <option value="{{ $siswa->id }}"
-                        {{ old('kelas_id', $siswa?->kelas_id) == $siswa->id ? 'selected' : '' }}>
-                        {{ $siswa->nama_kelas }}
+                @foreach ($kelas as $kelasItem)
+                    <option value="{{ $kelasItem->id }}"
+                        {{ old('kelas_id', $siswa?->kelas_id) == $kelasItem->id ? 'selected' : '' }}>
+                        {{ $kelasItem->nama_kelas }}
                     </option>
                 @endforeach
             </select>
@@ -105,8 +105,13 @@
         <div class="form-group mb-2 mb20">
             <label for="image" class="form-label">{{ __('Image') }}</label>
             <input type="file" name="image" class="form-control @error('image') is-invalid @enderror"
-                value="{{ old('image', $siswa?->image) }}" id="image" placeholder="Image">
+                id="image" placeholder="Image">
             {!! $errors->first('image', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
+            @if ($siswa?->image)
+                <div class="mt-2">
+                    <small class="text-muted">File saat ini: {{ $siswa->image }}</small>
+                </div>
+            @endif
         </div>
 
         <div class="form-group mb-2 mb20">
@@ -131,13 +136,6 @@
                 placeholder="Tahun Ajaran">
             {!! $errors->first('tahun_ajaran', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
         </div>
-
-        {{-- <div class="form-group mb-2 mb20">
-            <label for="penilaian" class="form-label">{{ __('Penilaian') }}</label>
-            <input type="text" name="penilaian" class="form-control @error('penilaian') is-invalid @enderror"
-                value="{{ old('penilaian', $siswa?->penilaian) }}" id="penilaian" placeholder="Penilaian">
-            {!! $errors->first('penilaian', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div> --}}
     </div>
 
     <!-- Tombol Submit - Full Width -->
