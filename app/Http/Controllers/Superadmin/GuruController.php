@@ -64,8 +64,11 @@ class GuruController extends Controller
     public function edit($id): View
     {
         $guru = Guru::find($id);
+        $kelas = Kela::all();
+        $users = User::where('role', 'Guru')->get();
 
-        return view('superadmin.guru.edit', compact('guru'));
+
+        return view('superadmin.guru.edit', compact('guru', 'kelas', 'users'));
     }
 
     /**
