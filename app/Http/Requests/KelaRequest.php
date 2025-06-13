@@ -22,9 +22,10 @@ class KelaRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'nama_kelas' => 'required|string',
-			'kelas_category_id' => 'required',
-			'jumlah_siswa' => 'required',
+            'nama_kelas' => 'required|string',
+            'kelas_category_id' => 'required',
+            'jumlah_siswa' => 'required',
+            'guru_id' => 'nullable|exists:gurus,id',
         ];
     }
 }
