@@ -29,8 +29,9 @@ class UserController extends Controller
     public function create(): View
     {
         $user = new User();
+        $roles = \Spatie\Permission\Models\Role::all();
 
-        return view('superadmin.user.create', compact('user'));
+        return view('superadmin.user.create', compact('user', 'roles'));
     }
 
     /**
@@ -38,12 +39,19 @@ class UserController extends Controller
      */
     public function store(UserRequest $request): RedirectResponse
     {
-        User::create($request->validated());
+        $validatedData = $request->validated();
+
+        // Buat user dengan semua data termasuk role enum
+        $user = User::create($validatedData);
+
+        // Assign role menggunakan Spatie Permission
+        if ($request->has('role')) {
+            $user->assignRole($request->role);
+        }
 
         return Redirect::route('superadmin.users.index')
             ->with('success', 'User created successfully.');
     }
-
     /**
      * Display the specified resource.
      */

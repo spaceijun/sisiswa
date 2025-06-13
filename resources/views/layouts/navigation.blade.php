@@ -14,6 +14,34 @@
                         <i data-feather="home"></i>Dashboard
                     </a>
                 </li>
+                <li class="menu-title"><span data-key="t-menu">Data Master</span></li>
+                <li class="nav-item">
+                    <a href="{{ url('superadmin/siswas') }}"
+                        class="nav-link {{ $current_url == 'superadmin/siswas' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Siswa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('superadmin/gurus') }}"
+                        class="nav-link {{ $current_url == 'superadmin/gurus' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Guru
+                    </a>
+                </li>
+                <li class="menu-title"><span data-key="t-menu">Data Kelas</span></li>
+                <li class="nav-item">
+                    <a href="{{ url('superadmin/kelas-categories') }}"
+                        class="nav-link {{ $current_url == 'superadmin/kelas-categories' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Jurusan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('superadmin/kelas') }}"
+                        class="nav-link {{ $current_url == 'superadmin/kelas' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Kelas
+                    </a>
+                </li>
+
+
                 <li class="menu-title"><span data-key="t-menu">Pengaturan Menu</span></li>
                 <li class="nav-item">
                     <a href="{{ url('superadmin/settings') }}"
@@ -27,33 +55,36 @@
                         <i data-feather="users"></i>Manajemen Pengguna
                     </a>
                 </li>
-            @elseif($role == 'User')
+            @elseif($role == 'Guru')
                 {{-- Menu Khusus User --}}
                 <li class="nav-item">
-                    <a href="{{ url('superuser/dashboard') }}"
-                        class="nav-link {{ $current_url == 'superuser/dashboard' ? 'active' : '' }}">
+                    <a href="{{ url('guru/dashboard') }}"
+                        class="nav-link {{ $current_url == 'guru/dashboard' ? 'active' : '' }}">
                         <i data-feather="home"></i>Beranda
                     </a>
                 </li>
                 <li class="menu-title"><span data-key="t-menu">Menu Utama</span></li>
                 <li class="nav-item">
-                    <a href="{{ url('superuser/profile') }}"
-                        class="nav-link {{ $current_url == 'superuser/profile' ? 'active' : '' }}">
-                        <i data-feather="superuser"></i>Profil Saya
+                    <a href="{{ url('guru/siswas') }}"
+                        class="nav-link {{ $current_url == 'guru/siswas' ? 'active' : '' }}">
+                        <i data-feather="guru"></i>Data Siswa
                     </a>
                 </li>
+            @elseif($role == 'Siswa')
+                {{-- Menu Khusus User --}}
                 <li class="nav-item">
-                    <a href="{{ url('superuser/activities') }}"
-                        class="nav-link {{ $current_url == 'superuser/activities' ? 'active' : '' }}">
-                        <i data-feather="activity"></i>Aktivitas
+                    <a href="{{ url('siswa/dashboard') }}"
+                        class="nav-link {{ $current_url == 'siswa/dashboard' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Beranda
                     </a>
                 </li>
+                {{-- <li class="menu-title"><span data-key="t-menu">Menu Utama</span></li>
                 <li class="nav-item">
-                    <a href="{{ url('superuser/notifications') }}"
-                        class="nav-link {{ $current_url == 'superuser/notifications' ? 'active' : '' }}">
-                        <i data-feather="bell"></i>Notifikasi
+                    <a href="{{ url('siswa/mata-pelajarans') }}"
+                        class="nav-link {{ $current_url == 'siswa/mata-pelajarans' ? 'active' : '' }}">
+                        <i data-feather="home"></i>Mata Pelajaran
                     </a>
-                </li>
+                </li> --}}
             @endif
 
             {{-- Menu yang tersedia untuk semua role --}}
