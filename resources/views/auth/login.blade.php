@@ -38,16 +38,17 @@
                                                     </div>
                                                     <div class="carousel-inner text-center text-white-50 pb-5">
                                                         <div class="carousel-item active">
-                                                            <p class="fs-15 fst-italic">" Great! Clean code, clean design,
-                                                                easy for customization. Thanks very much! "</p>
+                                                            <p class="fs-15 fst-italic">" Sistem yang mudah digunakan untuk
+                                                                semua kalangan pendidikan "</p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <p class="fs-15 fst-italic">" The theme is really great with an
-                                                                amazing customer support."</p>
+                                                            <p class="fs-15 fst-italic">" Login mudah dengan NIS untuk
+                                                                siswa,
+                                                                NIP untuk guru, dan email untuk admin "</p>
                                                         </div>
                                                         <div class="carousel-item">
-                                                            <p class="fs-15 fst-italic">" Great! Clean code, clean design,
-                                                                easy for customization. Thanks very much! "</p>
+                                                            <p class="fs-15 fst-italic">" Platform terintegrasi untuk
+                                                                manajemen sekolah yang efektif "</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -65,6 +66,25 @@
                                             <p class="text-muted">Silakan login untuk melanjutkan ke akun Anda.</p>
                                         </div>
 
+                                        <!-- Login Instructions -->
+                                        <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0">
+                                                    <i class="ri-information-line"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h6 class="alert-heading mb-1">Cara Login:</h6>
+                                                    <ul class="mb-0 small">
+                                                        <li><strong>Siswa:</strong> Gunakan NIS Anda (minimal 5 digit)</li>
+                                                        <li><strong>Guru:</strong> Gunakan NIP Anda (minimal 6 digit)</li>
+                                                        <li><strong>Admin/Orang Tua:</strong> Gunakan Email</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                aria-label="Close"></button>
+                                        </div>
+
                                         <!-- Session Status -->
                                         <x-auth-session-status class="mb-4" :status="session('status')" />
 
@@ -73,12 +93,10 @@
                                             <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
                                                 <div>
                                                     <strong>Login Gagal!</strong>
-                                                    @if ($errors->has('email'))
-                                                        Email atau password yang Anda masukkan salah.
+                                                    @if ($errors->has('login_identifier'))
+                                                        {{ $errors->first('login_identifier') }}
                                                     @elseif($errors->has('password'))
                                                         Password yang Anda masukkan salah.
-                                                    @elseif($errors->has('throttle'))
-                                                        Terlalu banyak percobaan login. Silakan coba lagi nanti.
                                                     @else
                                                         Terjadi kesalahan saat login. Silakan coba lagi.
                                                     @endif
@@ -92,12 +110,20 @@
                                             <form method="POST" action="{{ route('login') }}">
                                                 @csrf
                                                 <div class="mb-3">
-                                                    <label for="email" class="form-label">{{ __('Email') }}</label>
-                                                    <input type="email"
-                                                        class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}"
-                                                        id="email" name="email" value="{{ old('email') }}"
-                                                        placeholder="Masukkan email Anda" required autofocus
-                                                        autocomplete="username">
+                                                    <label for="login_identifier" class="form-label">
+                                                        {{ App\Helpers\LoginHelper::getLoginLabel() }}
+                                                    </label>
+                                                    <input type="text"
+                                                        class="form-control {{ $errors->has('login_identifier') ? 'is-invalid' : '' }}"
+                                                        id="login_identifier" name="login_identifier"
+                                                        value="{{ old('login_identifier') }}"
+                                                        placeholder="{{ App\Helpers\LoginHelper::getPlaceholderText() }}"
+                                                        required autofocus>
+                                                    <div class="form-text">
+                                                        <small class="text-muted">
+                                                            Contoh: admin@sekolah.com, 12345 (NIS), atau 123456 (NIP)
+                                                        </small>
+                                                    </div>
                                                 </div>
 
                                                 <div class="mb-3">
@@ -128,27 +154,6 @@
 
                                                 <div class="mt-4">
                                                     <button class="btn btn-success w-100" type="submit">Masuk</button>
-                                                </div>
-
-                                                <div class="mt-4 text-center">
-                                                    <div class="signin-other-title">
-                                                        <h5 class="fs-13 mb-4 title">Masuk dengan</h5>
-                                                    </div>
-
-                                                    <div>
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-icon waves-effect waves-light"><i
-                                                                class="ri-facebook-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-icon waves-effect waves-light"><i
-                                                                class="ri-google-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-dark btn-icon waves-effect waves-light"><i
-                                                                class="ri-github-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-info btn-icon waves-effect waves-light"><i
-                                                                class="ri-twitter-fill fs-16"></i></button>
-                                                    </div>
                                                 </div>
                                             </form>
                                         </div>
@@ -183,7 +188,7 @@
                             <p class="mb-0">&copy;
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> Your Company. All Rights Reserved.
+                                </script> Sistem Sekolah. All Rights Reserved.
                             </p>
                         </div>
                     </div>
@@ -197,7 +202,7 @@
     <!-- Bootstrap JS -->
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-    <!-- Error handler for missing dependencies -->
+    <!-- Enhanced JavaScript with login type detection -->
     <script>
         // Create a safety wrapper for JavaScript libraries
         function safeExecute(fn) {
@@ -208,8 +213,66 @@
             }
         }
 
+        // Login type detection and validation
+        function detectLoginType(identifier) {
+            // Email validation
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) {
+                return 'email';
+            }
+            // NIS validation (minimal 5 digit, maksimal 9 digit untuk membedakan dari NIP)
+            if (/^\d{5,9}$/.test(identifier)) {
+                return 'nis';
+            }
+            // NIP validation (minimal 6 digit atau format tertentu)
+            if (/^\d{6,}$/.test(identifier) && identifier.length >= 6) {
+                return 'nip';
+            }
+            // Format NIP dengan spasi (contoh: 12345678 123456 1 123)
+            if (/^\d{8}\s\d{6}\s\d\s\d{3}$/.test(identifier)) {
+                return 'nip';
+            }
+            return 'unknown';
+        }
+
+        // Update placeholder and help text based on input
+        function updateLoginHelp(input) {
+            const type = detectLoginType(input.value);
+            const helpText = input.parentElement.querySelector('.form-text small');
+
+            if (helpText) {
+                switch (type) {
+                    case 'email':
+                        helpText.textContent = 'Format email terdeteksi - untuk Admin/Orang Tua';
+                        helpText.className = 'text-success';
+                        break;
+                    case 'nis':
+                        helpText.textContent = 'Format NIS terdeteksi (5-9 digit) - untuk Siswa';
+                        helpText.className = 'text-info';
+                        break;
+                    case 'nip':
+                        helpText.textContent = 'Format NIP terdeteksi (minimal 6 digit) - untuk Guru';
+                        helpText.className = 'text-warning';
+                        break;
+                    default:
+                        helpText.textContent = 'Contoh: admin@sekolah.com, 12345 (NIS), atau 123456 (NIP)';
+                        helpText.className = 'text-muted';
+                }
+            }
+        }
+
         // Safe initializers for various components
         document.addEventListener('DOMContentLoaded', function() {
+            // Login identifier input enhancement
+            const loginInput = document.getElementById('login_identifier');
+            if (loginInput) {
+                loginInput.addEventListener('input', function() {
+                    updateLoginHelp(this);
+                });
+                loginInput.addEventListener('blur', function() {
+                    updateLoginHelp(this);
+                });
+            }
+
             // Password visibility toggle
             var passwordAddon = document.getElementById('password-addon');
             if (passwordAddon) {
@@ -241,10 +304,27 @@
                 var carouselElement = document.getElementById('qoutescarouselIndicators');
                 if (carouselElement) {
                     var carousel = new bootstrap.Carousel(carouselElement, {
-                        interval: 3000,
+                        interval: 4000,
                         wrap: true
                     });
                 }
+            }
+
+            // Form validation enhancement
+            const loginForm = document.querySelector('form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    const identifier = document.getElementById('login_identifier').value;
+                    const type = detectLoginType(identifier);
+
+                    if (type === 'unknown' && identifier.length > 0) {
+                        e.preventDefault();
+                        alert(
+                            'Format login tidak valid. Gunakan Email, NIS (minimal 5 digit), atau NIP (minimal 6 digit).'
+                        );
+                        return false;
+                    }
+                });
             }
 
             // Patch any missing functions from the template

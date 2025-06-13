@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Superadmin\Guru;
+use App\Models\Superadmin\Siswa;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -49,5 +51,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Relasi ke siswa
+    public function siswa()
+    {
+        return $this->hasOne(Siswa::class);
+    }
+
+    // Relasi ke guru
+    public function guru()
+    {
+        return $this->hasOne(Guru::class);
+    }
+
+    // Method untuk mendapatkan identifier login
+    public function getLoginIdentifier()
+    {
+        if ($this->hasRole('siswa') && $this->siswa) {
+            return $this->siswa->nis;
+        } elseif ($this->hasRole('guru') && $this->guru) {
+            return $this->guru->nip;
+        } else {
+            return $this->email;
+        }
     }
 }

@@ -37,6 +37,7 @@ class SiswaRequest extends FormRequest
             'nama_ibu' => 'required|string',
             'tahun_ajaran' => 'required|string',
             'penilaian' => 'nullable|numeric',
+            'orangtua_id' => 'required|exists:users,id',
         ];
     }
 }

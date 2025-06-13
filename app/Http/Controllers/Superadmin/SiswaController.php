@@ -33,8 +33,9 @@ class SiswaController extends Controller
         $siswa = new Siswa();
         $kelas = Kela::all();
         $users = User::where('role', 'Siswa')->get();
+        $orangtuas = User::where('role', 'OrangTua')->get();
 
-        return view('superadmin.siswa.create', compact('siswa', 'kelas', 'users'));
+        return view('superadmin.siswa.create', compact('siswa', 'kelas', 'users', 'orangtuas'));
     }
 
     /**
@@ -76,8 +77,10 @@ class SiswaController extends Controller
         $siswa = Siswa::find($id);
         $kelas = Kela::all();
         $users = User::where('role', 'Siswa')->get();
+        $orangtuas = User::where('role', 'OrangTua')->get();
 
-        return view('superadmin.siswa.edit', compact('siswa', 'kelas', 'users'));
+
+        return view('superadmin.siswa.edit', compact('siswa', 'kelas', 'users', 'orangtuas'));
     }
 
     /**

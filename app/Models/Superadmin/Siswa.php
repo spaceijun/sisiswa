@@ -39,7 +39,7 @@ class Siswa extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['kelas_id', 'user_id', 'nama_siswa', 'nis', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'agama', 'jenis_kelamin', 'telephone', 'image', 'nama_ayah', 'nama_ibu', 'tahun_ajaran', 'penilaian'];
+    protected $fillable = ['kelas_id', 'user_id', 'nama_siswa', 'nis', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'agama', 'jenis_kelamin', 'telephone', 'image', 'nama_ayah', 'nama_ibu', 'tahun_ajaran', 'penilaian', 'orangtua_id'];
 
 
     /**
@@ -48,5 +48,10 @@ class Siswa extends Model
     public function kela()
     {
         return $this->belongsTo(\App\Models\Superadmin\Kela::class, 'kelas_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
     }
 }

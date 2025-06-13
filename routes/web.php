@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GuruController as ControllersGuruController;
+use App\Http\Controllers\OrangtuaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SiswaController as ControllersSiswaController;
 use App\Http\Controllers\Superadmin\DeviceController;
@@ -88,6 +89,22 @@ Route::middleware('auth', 'role:Siswa')->group(function () {
     //     return view('superadmin.home.index')->name('superadmin.index');
     // });
 });
+
+/**
+ * Route Orangtua
+ */
+
+Route::middleware('auth', 'role:OrangTua')->group(function () {
+    Route::prefix('orangtua')->name('orangtua.')->group(function () {
+        Route::get('/dashboard', [OrangtuaController::class, 'index'])->name('dashboard');
+        Route::get('/', [OrangtuaController::class, 'index'])->name('dashboard');
+        Route::get('print', [OrangtuaController::class, 'print'])->name('print');
+    });
+    // Route::get('/', function () {
+    //     return view('superadmin.home.index')->name('superadmin.index');
+    // });
+});
+
 
 
 

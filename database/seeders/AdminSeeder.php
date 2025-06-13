@@ -15,6 +15,7 @@ class AdminSeeder extends Seeder
         Role::create(['name' => 'Superadmin']);
         Role::create(['name' => 'Guru']);
         Role::create(['name' => 'Siswa']);
+        Role::create(['name' => 'OrangTua']);
 
         // Superadmin
         $superadmin = User::create([
@@ -56,5 +57,19 @@ class AdminSeeder extends Seeder
 
         ]);
         $adminDesa->assignRole('Siswa');
+
+        // Buat user Orangtua
+        $adminDesa = User::create([
+            'name' => 'Ayah',
+            'email' => 'orangtua@gmail.com',
+            'telephone' => '085876550051',
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+            'role' => 'OrangTua',
+            'created_at' => now(),
+            'updated_at' => now(),
+
+        ]);
+        $adminDesa->assignRole('OrangTua');
     }
 }

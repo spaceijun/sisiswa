@@ -6,80 +6,108 @@ use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
+
+    public function rules()
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'login_identifier' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
-    /**
-     * Attempt to authenticate the request's credentials.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function authenticate(): void
+
+    public function messages()
+    {
+        return [
+            'login_identifier.required' => 'Email/NIS/NIP wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
+        ];
+    }
+
+    public function authenticate()
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = [
-            'email' => Request::get('email'),
-            'password' => Request::get('password'),
-        ];
-        $remember = Request::has('remember');
+        $identifier = $this->input('login_identifier');
+        $password = $this->input('password');
 
-        if (! Auth::attempt($credentials, $remember)) {
+        // Cari user berdasarkan identifier (email, NISN, atau NIP)
+        $user = $this->findUserByIdentifier($identifier);
+
+        // Jika user tidak ditemukan atau password salah
+        if (!$user || !Hash::check($password, $user->password)) {
             RateLimiter::hit($this->throttleKey());
+
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'login_identifier' => 'Email/NISN/NIP atau password yang Anda masukkan salah.',
             ]);
         }
+
+        // Login user
+        Auth::login($user, $this->boolean('remember'));
+
         RateLimiter::clear($this->throttleKey());
     }
+
     /**
-     * Ensure the login request is not rate limited.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Cari user berdasarkan email, NISN, atau NIP
      */
-    public function ensureIsNotRateLimited(): void
+    private function findUserByIdentifier($identifier)
+    {
+        // Coba cari berdasarkan email dulu
+        $user = User::where('email', $identifier)->first();
+
+        if ($user) {
+            return $user;
+        }
+
+        // Jika tidak ketemu, cari berdasarkan NIS di tabel siswa
+        $user = User::whereHas('siswa', function ($query) use ($identifier) {
+            $query->where('nis', $identifier);
+        })->first();
+
+        if ($user) {
+            return $user;
+        }
+
+        // Jika masih tidak ketemu, cari berdasarkan NIP di tabel guru
+        $user = User::whereHas('guru', function ($query) use ($identifier) {
+            $query->where('nip', $identifier);
+        })->first();
+
+        return $user;
+    }
+
+    public function ensureIsNotRateLimited()
     {
         if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
+
         event(new Lockout($this));
+
         $seconds = RateLimiter::availableIn($this->throttleKey());
+
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
+            'login_identifier' => trans('auth.throttle', [
                 'seconds' => $seconds,
                 'minutes' => ceil($seconds / 60),
             ]),
         ]);
     }
-    /**
-     * Get the rate limiting throttle key for the request.
-     */
-    public function throttleKey(): string
+
+    public function throttleKey()
     {
-        $email = Request::get('email', '');
-        $ip = Request::ip();
-        return Str::transliterate(Str::lower($email) . '|' . $ip);
+        return Str::transliterate(Str::lower($this->input('login_identifier')) . '|' . $this->ip());
     }
 }

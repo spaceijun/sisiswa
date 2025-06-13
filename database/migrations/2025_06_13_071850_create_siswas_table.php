@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kelas_id')->constrained('kelas')->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('orangtua_id')->constrained('users')->onDelete('cascade');
             $table->string('nama_siswa');
-            $table->integer('nis');
+            $table->string('nis');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->text('alamat');
