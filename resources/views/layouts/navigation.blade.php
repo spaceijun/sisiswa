@@ -18,26 +18,26 @@
                 <li class="nav-item">
                     <a href="{{ url('superadmin/siswas') }}"
                         class="nav-link {{ $current_url == 'superadmin/siswas' ? 'active' : '' }}">
-                        <i data-feather="home"></i>Siswa
+                        <i data-feather="users"></i>Siswa
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('superadmin/gurus') }}"
                         class="nav-link {{ $current_url == 'superadmin/gurus' ? 'active' : '' }}">
-                        <i data-feather="home"></i>Guru
+                        <i data-feather="users"></i>Guru
                     </a>
                 </li>
                 <li class="menu-title"><span data-key="t-menu">Data Kelas</span></li>
                 <li class="nav-item">
                     <a href="{{ url('superadmin/kelas-categories') }}"
                         class="nav-link {{ $current_url == 'superadmin/kelas-categories' ? 'active' : '' }}">
-                        <i data-feather="home"></i>Jurusan
+                        <i data-feather="grid"></i>Jurusan
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('superadmin/kelas') }}"
                         class="nav-link {{ $current_url == 'superadmin/kelas' ? 'active' : '' }}">
-                        <i data-feather="home"></i>Kelas
+                        <i data-feather="grid"></i>Kelas
                     </a>
                 </li>
 
@@ -67,7 +67,7 @@
                 <li class="nav-item">
                     <a href="{{ url('guru/siswas') }}"
                         class="nav-link {{ $current_url == 'guru/siswas' ? 'active' : '' }}">
-                        <i data-feather="guru"></i>Data Siswa
+                        <i data-feather="users"></i>Data Siswa
                     </a>
                 </li>
             @elseif($role == 'Siswa')
