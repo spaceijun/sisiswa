@@ -1,4 +1,4 @@
-# Starterkit SangkalaTech Laravel 12
+# Sistem Informasi Manajemen Siswa
 
 ### Instalation Demo (Local)
 
@@ -14,8 +14,5 @@
 ### User Account
 
 -   superadmin@gmail.com (superadmin)
-
-## Updated Version 1.1
-
--   Add Permission With Spatie
--   Add Manajemen User
+-   guru@gmail.com (password)
+-   siswa@gmail.com (password)
